@@ -3,10 +3,12 @@ package frc.robot;
 
 //Libraries
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.DriveCommand;
+import frc.robot.commands.TeleoperatedDriveCommand;
 import frc.robot.commands.AutonomousDriveCommand;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton; 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 //Container Class
 public class RobotContainer
@@ -23,14 +25,14 @@ public class RobotContainer
   public RobotContainer() 
   {
     //Subsystems
-    M_Drive = new SwerveSubSystem();
+    M_Drive = new SwerveSubsystem();
     //Controllers
     M_Controller = new XboxController(0);
     //Buttons
     Controller_A = new JoystickButton(M_Controller, XboxController.Button.kA.value);
     Controller_B = new JoystickButton(M_Controller, XboxController.Button.kB.value); 
     //Set Defaults
-    M_Drive.setDefaultCommand(new TeleoperatedDriveCommand(M_Drive,M_Controller.getLeftX,M_Controller.getLeftY,M_Controller.getRightX));
+    M_Drive.setDefaultCommand(new TeleoperatedDriveCommand(M_Drive,M_Controller.getLeftX(),M_Controller.getLeftY(),M_Controller.getRightX()));
     //Configure Bindings
     configureButtonBindings();
   }

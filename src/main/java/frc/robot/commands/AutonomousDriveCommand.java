@@ -4,6 +4,7 @@ package frc.robot.commands;
 //Libraries
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import java.util.Objects;
 
 public class AutonomousDriveCommand extends CommandBase
 {
@@ -36,7 +37,7 @@ public class AutonomousDriveCommand extends CommandBase
 
     //End Command
     @Override
-    public void end(boolean interrupted) {if(Object.equals(interrupted,true)){Command_Complete = true;}}
+    public void end(boolean interrupted) {if(Objects.equals(interrupted,true)){Command_Complete = true;}}
 
     //Check Command Complete
     @Override

@@ -72,9 +72,10 @@ public class SwerveSubsystem extends SubsystemBase
     R_Face = 1;
   }
   //Decrement
-  public void DecrementRotationalFace(){(R_Face > 0)? (R_Face--): (R_Face = 4);}
+  public void DecrementRotationalFace(){if(R_Face > 0) {R_Face--;} else {R_Face = 4;}}
   //Increment
-  public void IncrementRotationalFace(){(R_Face < 4)? (R_Face++): (R_Face = 0);}
+  public void IncrementRotationalFace(){if(R_Face < 4) {R_Face++;} else {R_Face = 0;}}
+
   //Periodic Subsystem
   @Override
   public void periodic() {}
