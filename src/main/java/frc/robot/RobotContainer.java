@@ -31,17 +31,16 @@ public class RobotContainer
     Controller_B = new JoystickButton(M_Controller, XboxController.Button.kB.value); 
     //Set Defaults
     M_Drive.setDefaultCommand(new TeleoperatedDriveCommand(M_Drive,M_Controller.getLeftX,M_Controller.getLeftY,M_Controller.getRightX));
-    //Config Bindings
+    //Configure Bindings
     configureButtonBindings();
   }
   //Config Bindings
   private void configureButtonBindings() 
   {
     //When A Pressed, Increment Rotational Face.
-    Controller_A.whenPressed(M_Drive.IncrementRotationalFace);
-
+    Controller_A.whenPressed(new InstantCommand(() -> {M_Drive.IncrementRotationalFace();},M_Drive));
     //When B Pressed, Decrement Rotational Face.
-    Controller_B.whenPressed(M_Drive.DecrementRotationalFace);
+    Controller_B.whenPressed(new InstantCommand(() -> {M_Drive.DecrementRotationalFace();},M_Drive));
   }
   //ACESSORS
 
