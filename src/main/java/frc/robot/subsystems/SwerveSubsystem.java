@@ -9,8 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //SwerveSubSystem
 public class SwerveSubsystem extends SubsystemBase
 {
-  //Instance Variables
-
+  //INSTANCE VARIABLES
   //Drive Motors
   private WPI_TalonSRX D_FL;
   private WPI_TalonSRX D_FR;
@@ -36,7 +35,7 @@ public class SwerveSubsystem extends SubsystemBase
   private MotorControllerGroup B_Drive;
   private MotorControllerGroup R_Drive;
   private MotorControllerGroup K_Drive;
-  //Primitives
+  //Rotational Face
   private int R_Face;
 
   //Constructors
