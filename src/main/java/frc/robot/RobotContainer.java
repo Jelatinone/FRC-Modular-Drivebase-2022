@@ -2,33 +2,52 @@
 package frc.robot;
 
 //Libraries
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.DriveCommand;
+import frc.robot.commands.AutonomousDriveCommand;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
+//Container Class
 public class RobotContainer
 {
-  //Instance Variables
-
-  //Subsytem
-  private final SwerveSubsystem M_Drive = new SwerveSubsystem();
-  private final DriveCommand M_Drive_Command = new DriveCommand(M_Drive);
+  //Subsystems
+  private SwerveSubsystem M_Drive;
+  //Controllers
+  private final XboxController M_Controller;
+  //Buttons
+  private JoystickButton Controller_A;
+  private JoystickButton Controller_B;
 
   //Constructor
   public RobotContainer() 
   {
+    //Subsystems
+    M_Drive = new SwerveSubSystem();
+    //Controllers
+    M_Controller = new XboxController(0);
+    //Buttons
+    Controller_A = new JoystickButton(M_Controller, XboxController.Button.kA.value);
+    Controller_B = new JoystickButton(M_Controller, XboxController.Button.kB.value); 
+    //Set Defaults
+    M_Drive.setDefaultCommand(new TeleoperatedDriveCommand(M_Drive,M_Controller.getLeftX,M_Controller.getLeftY,M_Controller.getRightX));
+    //Config Bindings
     configureButtonBindings();
   }
-
   //Config Bindings
-  private void configureButtonBindings() {}
-
-  //Return the Subsystem
-  public SwerveSubsystem getDrive() 
+  private void configureButtonBindings() 
   {
-    return M_Drive;
+    //When A Pressed, Increment Rotational Face.
+    Controller_A.whenPressed(M_Drive.IncrementRotationalFace);
+
+    //When B Pressed, Decrement Rotational Face.
+    Controller_B.whenPressed(M_Drive.DecrementRotationalFace);
   }
+  //ACESSORS
+
+  //Return Drive
+  public SwerveSubsystem getDrive() {return M_Drive;}
+
+  //Return Autonomous Command
+  public Command getAutonomousCommand(){return new AutonomousDriveCommand(M_Drive);}
 }
