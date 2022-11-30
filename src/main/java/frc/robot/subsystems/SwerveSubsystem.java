@@ -12,30 +12,32 @@ public class SwerveSubsystem extends SubsystemBase
   //Instance Variables
 
   //Drive Motors
-  final WPI_TalonSRX D_FL;
-  final WPI_TalonSRX D_FR;
-  final WPI_TalonSRX D_BL;
-  final WPI_TalonSRX D_BR;
+  private WPI_TalonSRX D_FL;
+  private WPI_TalonSRX D_FR;
+  private WPI_TalonSRX D_BL;
+  private WPI_TalonSRX D_BR;
   //Rotational Motors
-  final WPI_TalonSRX R_FL;
-  final WPI_TalonSRX R_FR;
-  final WPI_TalonSRX R_BL;
-  final WPI_TalonSRX R_BR;
+  private WPI_TalonSRX R_FL;
+  private WPI_TalonSRX R_FR;
+  private WPI_TalonSRX R_BL;
+  private WPI_TalonSRX R_BR;
   //Large Groups
-  final MotorControllerGroup Rotational;
-  final MotorControllerGroup Drive;
+  private MotorControllerGroup Rotational;
+  private MotorControllerGroup Drive;
   //Rotational Groups
-  final MotorControllerGroup F_Rotational;
-  final MotorControllerGroup L_Rotational;
-  final MotorControllerGroup B_Rotational;
-  final MotorControllerGroup R_Rotational;
-  final MotorControllerGroup K_Rotational;
+  private MotorControllerGroup F_Rotational;
+  private MotorControllerGroup L_Rotational;
+  private MotorControllerGroup B_Rotational;
+  private MotorControllerGroup R_Rotational;
+  private MotorControllerGroup K_Rotational;
   //Drive Groups
-  final MotorControllerGroup F_Drive;
-  final MotorControllerGroup L_Drive;
-  final MotorControllerGroup B_Drive;
-  final MotorControllerGroup R_Drive;
-  final MotorControllerGroup K_Drive;
+  private MotorControllerGroup F_Drive;
+  private MotorControllerGroup L_Drive;
+  private MotorControllerGroup B_Drive;
+  private MotorControllerGroup R_Drive;
+  private MotorControllerGroup K_Drive;
+  //Primitives
+  private int R_Face;
 
   //Constructors
   public SwerveSubsystem()
@@ -66,8 +68,13 @@ public class SwerveSubsystem extends SubsystemBase
     //Movement Rotational
     K_Drive = new MotorControllerGroup(D_FL, D_FR);
     K_Rotational = new MotorControllerGroup(R_FL,R_FR);
+    //Rotational Face
+    R_Face = 1;
   }
-
+  //Decrement
+  public void DecrementRotationalFace(){(R_Face > 0)? (R_Face--): (R_Face = 4);}
+  //Increment
+  public void IncrementRotationalFace(){(R_Face < 4)? (R_Face++): (R_Face = 0);}
   //Periodic Subsystem
   @Override
   public void periodic() {}
