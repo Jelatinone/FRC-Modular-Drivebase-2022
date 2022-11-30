@@ -63,7 +63,6 @@ public class SwerveSubsystem extends SubsystemBase
     L_Drive = new MotorControllerGroup(D_FL, D_BL);
     B_Drive = new MotorControllerGroup(D_BL,D_BR);
     R_Drive = new MotorControllerGroup(D_BR, D_FR);
-
     //Movement Rotational
     K_Drive = new MotorControllerGroup(D_FL, D_FR);
     K_Rotational = new MotorControllerGroup(R_FL,R_FR);
