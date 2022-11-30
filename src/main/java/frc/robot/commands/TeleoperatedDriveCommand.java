@@ -3,6 +3,7 @@ package frc.robot.commands;
 
 //Libraries
 import frc.robot.subsystems.SwerveSubsystem;
+import java.util.Objects;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TeleoperatedDriveCommand extends CommandBase
@@ -20,7 +21,7 @@ public class TeleoperatedDriveCommand extends CommandBase
 
 
   //Constructors
-  public TeleoperatedDriveCommand(SwerveSubsystem Parent, double Left_X, double Left,Y, double RightX)
+  public TeleoperatedDriveCommand(SwerveSubsystem Parent, double Left_X, double Left_Y, double Right_X)
   {
     //Define Instances
     Parent_Subsystem = Parent;
@@ -41,7 +42,7 @@ public class TeleoperatedDriveCommand extends CommandBase
   @Override
   public void end(boolean interrupted) 
   {
-    if(Object.equals(interrupted,true)){Command_Complete = true;}
+    if(Objects.equals(interrupted,true)){Command_Complete = true;}
   }
 
   //Check Command Complete
