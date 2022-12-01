@@ -4,8 +4,8 @@ package frc.robot.subsystems;
 //Libraries
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.Pigeon2;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.util.Objects;
 
 //SwerveSubSystem
 public class SwerveSubsystem extends SubsystemBase
@@ -21,28 +21,22 @@ public class SwerveSubsystem extends SubsystemBase
   private WPI_TalonSRX R_FR;
   private WPI_TalonSRX R_BL;
   private WPI_TalonSRX R_BR;
-  //Large Groups
-  private MotorControllerGroup Rotational;
-  private MotorControllerGroup Drive;
-  //Rotational Groups
-  private MotorControllerGroup F_Rotational;
-  private MotorControllerGroup L_Rotational;
-  private MotorControllerGroup B_Rotational;
-  private MotorControllerGroup R_Rotational;
-  private MotorControllerGroup K_Rotational;
-  //Drive Groups
-  private MotorControllerGroup F_Drive;
-  private MotorControllerGroup L_Drive;
-  private MotorControllerGroup B_Drive;
-  private MotorControllerGroup R_Drive;
-  private MotorControllerGroup K_Drive;
+  //Large List
+  private WPI_TalonSRX[] Rotational;
+  private WPI_TalonSRX[] Drive;
+  //S-Rotational List
+  private WPI_TalonSRX[] K_Rotational;
+  private WPI_TalonSRX[] [] N_Rotationals;
+  //S-Drive List
+  private WPI_TalonSRX[] K_Drive;
+  private WPI_TalonSRX[] [] N_Drives;
   //Gyroscope
   final Pigeon2 M_Gyro;
   //Rotational Face
   private int R_Face;
   //Group Lists
-  private MotorControllerGroup[] Rotational_Groups;
-  private MotorControllerGroup[] Drive_Groups;
+  private WPI_TalonSRX[] [] Rotational_Groups;
+  private WPI_TalonSRX[] [] Drive_Groups;
   //Compass Heading
   private static double Compass_Heading;
   //Constructors
@@ -60,25 +54,15 @@ public class SwerveSubsystem extends SubsystemBase
     R_BL = new WPI_TalonSRX(3);
     R_BR = new WPI_TalonSRX(7);
     //Large Groups
-    Rotational = new MotorControllerGroup(R_FL,R_FR,R_BL,R_BR);
-    Drive = new MotorControllerGroup(D_FL,D_FR,D_BL,D_BR);
-    //Rotational Groups
-    F_Rotational = new MotorControllerGroup(R_FL,R_FR);
-    L_Rotational = new MotorControllerGroup(R_FL,R_BL);
-    B_Rotational = new MotorControllerGroup(R_BL,R_BR);
-    R_Rotational = new MotorControllerGroup(R_FR,R_BR);
-    //Drive Groups
-    F_Drive = new MotorControllerGroup(D_FL, D_FR);
-    L_Drive = new MotorControllerGroup(D_FL, D_BL);
-    B_Drive = new MotorControllerGroup(D_BL,D_BR);
-    R_Drive = new MotorControllerGroup(D_BR, D_FR);
+    Rotational = new WPI_TalonSRX[]{R_FL,R_FR,R_BL,R_BR};
+    Drive = new WPI_TalonSRX[]{D_FL,D_FR,D_BL,D_BR};
     //Additional
     M_Gyro = Gyro;
     //Rotational Face
     R_Face = 1;
     //Group Lists
-    Rotational_Groups = new MotorControllerGroup[] {F_Rotational,L_Rotational,B_Rotational,R_Rotational};
-    Drive_Groups = new MotorControllerGroup[] {F_Drive,L_Drive,B_Drive,R_Drive};
+    Rotational_Groups = new WPI_TalonSRX[] [] {{R_FL,R_FR},{R_FL,R_BL},{R_BL,R_BR},{R_FR,R_BR}};
+    Drive_Groups = new WPI_TalonSRX[] [] {{D_FL, D_FR},{D_FL, D_BL},{D_BL,D_BR},{D_BR, D_FR}};
     //Compass Heading
     Compass_Heading = M_Gyro.getCompassHeading();
 
@@ -94,30 +78,38 @@ public class SwerveSubsystem extends SubsystemBase
   {
     //Update Heading and Rotational Wheels
     RotationalWheels(Compass_Heading = M_Gyro.getCompassHeading());
+    
   }
 
   //Simulation Periodic
   @Override
   public void simulationPeriodic() {}
 
-  //Convert K-Motors
+  //Convert K-Motors, R-Motors
   public void RotationalWheels(double Heading)
   {
-    K_Drive = Drive_Groups[(((int)Math.round(Heading/90) + R_Face) > 4)? (0): ((int)Math.round(Heading/90))];
-    K_Rotational = Rotational_Groups[(((int)Math.round(Heading/90) + R_Face) > 4)? (0): ((int)Math.round(Heading/90))];
+    int Index = (((int)Math.round(Heading/90) + R_Face) > Rotational_Groups.length)? (0): ((int)Math.round(Heading/90));
+    K_Drive = Drive_Groups[Index];
+    K_Rotational = Rotational_Groups[Index];
+    for(int i = 0, j = 0; i < Drive_Groups.length; i++)
+      if(!(Objects.equals(i,Index))){N_Rotationals[j] = Rotational_Groups[i];N_Drives[j] = Drive_Groups[i];j++;}
   }
 
   //ACESSORS
   //Return Current Rotational Face
   public int getRotationalFace() {return R_Face;}
   //Return K[D] MotorControllerGroup
-  public MotorControllerGroup getKDrive() {return K_Drive;}
+  public WPI_TalonSRX[] getKDrive() {return K_Drive;}
   //Return K[R] MotorControllerGroup
-  public MotorControllerGroup getKRotate() {return K_Rotational;}
+  public WPI_TalonSRX[] getKRotate() {return K_Rotational;}
   //Return Rotaional Group
-  public MotorControllerGroup getRotationalGroup() {return Rotational;}
+  public WPI_TalonSRX[] getRotationalGroup() {return Rotational;}
   //Return Drive Group
-  public MotorControllerGroup getDriveGroup() {return Drive;}
+  public WPI_TalonSRX[] getDriveGroup() {return Drive;}
+  //Return N[D]
+  public WPI_TalonSRX[] [] getNRotates() {return N_Rotationals;}
+  //Return N[R]
+  public WPI_TalonSRX[] [] getNDrives() {return N_Drives;}
   //Return Current Compass Heading
   public double getCurrentHeading() {return Compass_Heading;}
 }
