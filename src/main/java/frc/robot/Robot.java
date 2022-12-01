@@ -1,24 +1,28 @@
 //Root Package
 package frc.robot;
 
+import edu.wpi.first.util.sendable.Sendable;
 //Libraries
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 //Robot Class
 public class Robot extends TimedRobot 
 {
   //Instance Variables
 
-  private Command m_autonomousCommand;
-  private RobotContainer m_robotContainer;
+  private Command M_AutoCommand;
+  private RobotContainer M_robotContainer;
 
   //Initialize Robot
   @Override
-  public void robotInit() {
-
-    m_robotContainer = new RobotContainer();
+  public void robotInit() 
+  {
+    M_robotContainer = new RobotContainer();
+    //Compass Indicator
+    Shuffleboard.getTab("Example tab").add((Sendable) M_robotContainer.getGyro());
   }
 
   //Periodically Called
@@ -39,22 +43,31 @@ public class Robot extends TimedRobot
   @Override
   public void autonomousInit() 
   {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    if (m_autonomousCommand != null) 
+    M_AutoCommand = M_robotContainer.getAutonomousCommand();
+    if (M_AutoCommand != null) 
     {
-      m_autonomousCommand.schedule();
+      M_AutoCommand.schedule();
     }
   }
 
   //Periodically Called Autonomous
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() 
+  {
+    M_AutoCommand = M_robotContainer.getAutonomousCommand();
+    if (M_AutoCommand != null) 
+    {
+      M_AutoCommand.schedule();
+    }
+  }
 
   //Initialize Teleoperated
   @Override
-  public void teleopInit() {
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+  public void teleopInit() 
+  {
+    if (M_AutoCommand != null) 
+    {
+      M_AutoCommand.cancel();
     }
   }
 

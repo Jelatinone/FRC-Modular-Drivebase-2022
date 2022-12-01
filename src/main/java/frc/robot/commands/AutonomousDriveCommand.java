@@ -12,33 +12,30 @@ public class AutonomousDriveCommand extends CommandBase
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
     //Instance Variables
+    private boolean Command_Complete = false;
     private final SwerveSubsystem Parent_Subsystem;
-
-    //Primitives
-    private boolean Command_Complete;
 
     //Constructors
     public AutonomousDriveCommand(SwerveSubsystem Parent)
     {
         //Define Instances
+        //Parent Subsystem
         Parent_Subsystem = Parent;
-        Command_Complete = false;
-        //Add Command To Subsystem
+        //Add Command To Parent Subsystem
         addRequirements(Parent_Subsystem);
     }
-
     //Initialize Command
     @Override
     public void initialize() {}
-
     //Execute Command
     @Override
-    public void execute() {}
-
+    public void execute() 
+    {
+        //Autonomous Code
+    }
     //End Command
     @Override
     public void end(boolean interrupted) {if(Objects.equals(interrupted,true)){Command_Complete = true;}}
-
     //Check Command Complete
     @Override
     public boolean isFinished() {return Command_Complete;}

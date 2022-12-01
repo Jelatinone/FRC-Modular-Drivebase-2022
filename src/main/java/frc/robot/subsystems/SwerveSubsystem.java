@@ -3,6 +3,9 @@ package frc.robot.subsystems;
 
 //Libraries
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.sensors.Pigeon2;
+
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -35,12 +38,16 @@ public class SwerveSubsystem extends SubsystemBase
   private MotorControllerGroup B_Drive;
   private MotorControllerGroup R_Drive;
   private MotorControllerGroup K_Drive;
+  //Additional
+  final XboxController M_Controller;
+  final Pigeon2 M_Gyro;
   //Rotational Face
   private int R_Face;
 
   //Constructors
-  public SwerveSubsystem()
+  public SwerveSubsystem(XboxController Controller, Pigeon2 Gyro)
   {
+    //Define Instances
     //Drive Motors
     D_FL = new WPI_TalonSRX(0);
     D_FR = new WPI_TalonSRX(4);
@@ -67,6 +74,9 @@ public class SwerveSubsystem extends SubsystemBase
     //Movement Rotational
     K_Drive = new MotorControllerGroup(D_FL, D_FR);
     K_Rotational = new MotorControllerGroup(R_FL,R_FR);
+    //Additional
+    M_Controller = Controller;
+    M_Gyro = Gyro;
     //Rotational Face
     R_Face = 1;
   }

@@ -7,6 +7,8 @@ import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import java.util.Objects;
 
+import com.ctre.phoenix.sensors.Pigeon2;
+
 public class TeleoperatedDriveCommand extends CommandBase
 {
   //Suppress Warnings
@@ -14,20 +16,27 @@ public class TeleoperatedDriveCommand extends CommandBase
 
 
   //Instance Variables
+  private final double JoystickL_X;
+  private final double JoystickL_Y;
+  private final double JoystickR_X;
+  private final Pigeon2 M_gyro;
   private final SwerveSubsystem Parent_Subsystem;
-
-
-  //Pre-Defined
-  private boolean Command_Complete;
+  private boolean Command_Complete = false;
 
 
   //Constructors
-  public TeleoperatedDriveCommand(SwerveSubsystem Parent, double Left_X, double Left_Y, double Right_X)
+  public TeleoperatedDriveCommand(SwerveSubsystem Parent, double Left_X, double Left_Y, double Right_X,Pigeon2 gyro)
   {
     //Define Instances
+    //Joysticks
+    JoystickL_X = Left_X;
+    JoystickL_Y = Left_Y;
+    JoystickR_X = Right_X;
+    //Parent Subsystem
     Parent_Subsystem = Parent;
-    Command_Complete = false;
-    //Add Command To Subsystem
+    //Gyroscope
+    M_gyro = gyro;
+    //Add Command To Parent Subsystem
     addRequirements(Parent_Subsystem);
   }
 
@@ -37,19 +46,16 @@ public class TeleoperatedDriveCommand extends CommandBase
 
   //Execute Command
   @Override
-  public void execute() {}
-
+  public void execute() 
+  {
+    //Receive Compas Heading
+    M_gyro.getCompassHeading();
+  }
   //End Command
   @Override
-  public void end(boolean interrupted) 
-  {
-    if(Objects.equals(interrupted,true)){Command_Complete = true;}
-  }
-
+  public void end(boolean interrupted) {if(Objects.equals(interrupted,true)){Command_Complete = true;}}
   //Check Command Complete
   @Override
-  public boolean isFinished() {
-    return Command_Complete;
-  }
+  public boolean isFinished() {return Command_Complete;}
 }
 

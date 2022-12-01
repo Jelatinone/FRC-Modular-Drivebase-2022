@@ -28,8 +28,6 @@ public class RobotContainer
   //Constructor
   public RobotContainer() 
   {
-    //Subsystems
-    M_Drive = new SwerveSubsystem();
     //Controllers
     M_Controller = new XboxController(0);
     //Buttons
@@ -38,7 +36,9 @@ public class RobotContainer
     //Gyroscopes
     M_Gyro = new Pigeon2(4); 
     //Set Defaults
-    M_Drive.setDefaultCommand(new TeleoperatedDriveCommand(M_Drive,M_Controller.getLeftX(),M_Controller.getLeftY(),M_Controller.getRightX()));
+    M_Drive.setDefaultCommand(new TeleoperatedDriveCommand(M_Drive,M_Controller.getLeftX(),M_Controller.getLeftY(),M_Controller.getRightX(),M_Gyro));
+    //Subsystems
+    M_Drive = new SwerveSubsystem(M_Controller,M_Gyro);    
     //Configure Bindings
     configureButtonBindings();
   }
@@ -58,5 +58,7 @@ public class RobotContainer
   public Command getAutonomousCommand(){return new AutonomousDriveCommand(M_Drive);}
   //Return Controller
   public XboxController getController(){return M_Controller;}
+  //Return Gyroscope
+  public Pigeon2 getGyro() {return M_Gyro;}
 
 }
