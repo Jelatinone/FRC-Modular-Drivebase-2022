@@ -43,7 +43,9 @@ public class SwerveSubsystem extends SubsystemBase
   final Pigeon2 M_Gyro;
   //Rotational Face
   private int R_Face;
-
+  //Group Lists
+  private MotorControllerGroup[] Rotational_Groups;
+  private MotorControllerGroup[] Drive_Groups;
   //Constructors
   public SwerveSubsystem(XboxController Controller, Pigeon2 Gyro)
   {
@@ -71,14 +73,15 @@ public class SwerveSubsystem extends SubsystemBase
     L_Drive = new MotorControllerGroup(D_FL, D_BL);
     B_Drive = new MotorControllerGroup(D_BL,D_BR);
     R_Drive = new MotorControllerGroup(D_BR, D_FR);
-    //Movement Rotational
-    K_Drive = new MotorControllerGroup(D_FL, D_FR);
-    K_Rotational = new MotorControllerGroup(R_FL,R_FR);
     //Additional
     M_Controller = Controller;
     M_Gyro = Gyro;
     //Rotational Face
     R_Face = 1;
+    //Group Lists
+    Rotational_Groups = new MotorControllerGroup[] {F_Rotational,L_Rotational,B_Rotational,B_Rotational};
+    Drive_Groups = new MotorControllerGroup[] {F_Drive,L_Drive,B_Drive,R_Rotational};
+
   }
   //Decrement
   public void DecrementRotationalFace(){if(R_Face > 0) {R_Face--;} else {R_Face = 4;}}
@@ -92,4 +95,21 @@ public class SwerveSubsystem extends SubsystemBase
   //Simulation Periodic
   @Override
   public void simulationPeriodic() {}
+
+  //Convert K-Motors
+  public void RotationalWheels(double Heading)
+  {
+    K_Drive = Rotational_Groups[(int)Math.round(Heading/90)];
+    K_Rotational = Rotational_Groups[(int)Math.round(Heading/90)];
+  }
+  //ACESSORS
+
+  //Return Current Rotational Face
+  public int getRotationalFace() {return R_Face;}
+  //Return K[D] MotorControllerGroup
+  public MotorControllerGroup getKDrive() {return K_Drive;}
+  //Return K[R] MotorControllerGroup
+  public MotorControllerGroup getKRotate() {return K_Rotational;}
+
+
 }

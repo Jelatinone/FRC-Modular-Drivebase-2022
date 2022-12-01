@@ -48,8 +48,10 @@ public class TeleoperatedDriveCommand extends CommandBase
   @Override
   public void execute() 
   {
-    //Receive Compas Heading
-    M_gyro.getCompassHeading();
+    //Compass Heading
+    double Compass_Heading = M_gyro.getCompassHeading();
+    //Update Wheels
+    Parent_Subsystem.RotationalWheels(Compass_Heading);
   }
   //End Command
   @Override
