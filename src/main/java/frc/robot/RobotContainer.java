@@ -43,7 +43,7 @@ public class RobotContainer
       //Set Defaults
       M_Drive.setDefaultCommand(new TeleoperatedDriveCommand(M_Drive,M_Controller.getLeftX(),M_Controller.getLeftY(),M_Controller.getRightX(),M_Gyro));
       //Subsystems
-      M_Drive = new SwerveSubsystem(M_Controller,M_Gyro);    
+      M_Drive = new SwerveSubsystem(M_Gyro);    
       //Configure Bindings
       configureButtonBindings();
   }

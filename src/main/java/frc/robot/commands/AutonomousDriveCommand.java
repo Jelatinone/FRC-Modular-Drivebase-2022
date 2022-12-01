@@ -1,8 +1,10 @@
 //Root Package
 package frc.robot.commands;
 
-//Libraries
+//Local
 import frc.robot.subsystems.SwerveSubsystem;
+
+//Libraries
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import java.util.Objects;
 

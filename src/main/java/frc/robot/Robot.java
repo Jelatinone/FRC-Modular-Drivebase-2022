@@ -1,12 +1,12 @@
 //Root Package
 package frc.robot;
 
-import edu.wpi.first.util.sendable.Sendable;
 //Libraries
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.util.sendable.Sendable;
 
 //Robot Class
 public class Robot extends TimedRobot 
@@ -22,7 +22,7 @@ public class Robot extends TimedRobot
   {
     M_robotContainer = new RobotContainer();
     //Compass Indicator
-    Shuffleboard.getTab("Example tab").add((Sendable) M_robotContainer.getGyro());
+    Shuffleboard.getTab("Compass").add((Sendable) M_robotContainer.getGyro());
   }
 
   //Periodically Called

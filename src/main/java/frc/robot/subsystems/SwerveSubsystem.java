@@ -4,8 +4,6 @@ package frc.robot.subsystems;
 //Libraries
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.Pigeon2;
-
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -38,16 +36,17 @@ public class SwerveSubsystem extends SubsystemBase
   private MotorControllerGroup B_Drive;
   private MotorControllerGroup R_Drive;
   private MotorControllerGroup K_Drive;
-  //Additional
-  final XboxController M_Controller;
+  //Gyroscope
   final Pigeon2 M_Gyro;
   //Rotational Face
   private int R_Face;
   //Group Lists
   private MotorControllerGroup[] Rotational_Groups;
   private MotorControllerGroup[] Drive_Groups;
+  //Compass Heading
+  private static double Compass_Heading;
   //Constructors
-  public SwerveSubsystem(XboxController Controller, Pigeon2 Gyro)
+  public SwerveSubsystem(Pigeon2 Gyro)
   {
     //Define Instances
     //Drive Motors
@@ -74,13 +73,14 @@ public class SwerveSubsystem extends SubsystemBase
     B_Drive = new MotorControllerGroup(D_BL,D_BR);
     R_Drive = new MotorControllerGroup(D_BR, D_FR);
     //Additional
-    M_Controller = Controller;
     M_Gyro = Gyro;
     //Rotational Face
     R_Face = 1;
     //Group Lists
     Rotational_Groups = new MotorControllerGroup[] {F_Rotational,L_Rotational,B_Rotational,R_Rotational};
     Drive_Groups = new MotorControllerGroup[] {F_Drive,L_Drive,B_Drive,R_Drive};
+    //Compass Heading
+    Compass_Heading = M_Gyro.getCompassHeading();
 
   }
   //Decrement
@@ -90,7 +90,11 @@ public class SwerveSubsystem extends SubsystemBase
 
   //Periodic Subsystem
   @Override
-  public void periodic() {}
+  public void periodic() 
+  {
+    //Update Heading and Rotational Wheels
+    RotationalWheels(Compass_Heading = M_Gyro.getCompassHeading());
+  }
 
   //Simulation Periodic
   @Override
@@ -99,11 +103,11 @@ public class SwerveSubsystem extends SubsystemBase
   //Convert K-Motors
   public void RotationalWheels(double Heading)
   {
-    K_Drive = Drive_Groups[(int)Math.round(Heading/90)];
-    K_Rotational = Rotational_Groups[(int)Math.round(Heading/90)];
+    K_Drive = Drive_Groups[(((int)Math.round(Heading/90) + R_Face) > 4)? (0): ((int)Math.round(Heading/90))];
+    K_Rotational = Rotational_Groups[(((int)Math.round(Heading/90) + R_Face) > 4)? (0): ((int)Math.round(Heading/90))];
   }
-  //ACESSORS
 
+  //ACESSORS
   //Return Current Rotational Face
   public int getRotationalFace() {return R_Face;}
   //Return K[D] MotorControllerGroup
@@ -114,5 +118,6 @@ public class SwerveSubsystem extends SubsystemBase
   public MotorControllerGroup getRotationalGroup() {return Rotational;}
   //Return Drive Group
   public MotorControllerGroup getDriveGroup() {return Drive;}
-
+  //Return Current Compass Heading
+  public double getCurrentHeading() {return Compass_Heading;}
 }

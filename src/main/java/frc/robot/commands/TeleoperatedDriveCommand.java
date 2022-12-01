@@ -3,8 +3,10 @@ package frc.robot.commands;
 
 //Local
 import frc.robot.subsystems.SwerveSubsystem;
+import edu.wpi.first.wpilibj2.command.Command;
 //Libraries
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import java.util.Objects;
 
 import com.ctre.phoenix.sensors.Pigeon2;
@@ -19,7 +21,6 @@ public class TeleoperatedDriveCommand extends CommandBase
   private final double JoystickL_X;
   private final double JoystickL_Y;
   private final double JoystickR_X;
-  private final Pigeon2 M_gyro;
   private final SwerveSubsystem Parent_Subsystem;
   private boolean Command_Complete = false;
 
@@ -28,14 +29,12 @@ public class TeleoperatedDriveCommand extends CommandBase
   public TeleoperatedDriveCommand(SwerveSubsystem Parent, double Left_X, double Left_Y, double Right_X,Pigeon2 gyro)
   {
     //Define Instances
-    //Joysticks
-    JoystickL_X = Left_X;
-    JoystickL_Y = Left_Y;
-    JoystickR_X = Right_X;
+    //Joystick Deadzone Assignment
+    if(Left_X > 0.05){JoystickL_X = Left_X;}else{JoystickL_X = 0.0; Command_Complete = true; this.cancel();}
+    if(Left_Y > 0.05){JoystickL_Y = Left_Y;}else{JoystickL_Y = 0.0; Command_Complete = true;this.cancel();}
+    if(Right_X > 0.05){JoystickR_X = Right_X;}else{JoystickR_X = 0.0; Command_Complete = true; this.cancel();}
     //Parent Subsystem
     Parent_Subsystem = Parent;
-    //Gyroscope
-    M_gyro = gyro;
     //Add Command To Parent Subsystem
     addRequirements(Parent_Subsystem);
   }
@@ -48,10 +47,9 @@ public class TeleoperatedDriveCommand extends CommandBase
   @Override
   public void execute() 
   {
-    //Compass Heading
-    double Compass_Heading = M_gyro.getCompassHeading();
-    //Update Wheels
-    Parent_Subsystem.RotationalWheels(Compass_Heading);
+    //Get Drive and Rotational Motors
+    MotorControllerGroup K_Drive = Parent_Subsystem.getKDrive();
+    MotorControllerGroup K_Rotational = Parent_Subsystem.getKRotate();
   }
   //End Command
   @Override
