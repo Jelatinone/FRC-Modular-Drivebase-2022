@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton; 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import com.ctre.phoenix.sensors.Pigeon2;
+import java.lang.NullPointerException;
 //Container Class
 public class RobotContainer
 {
@@ -18,7 +19,7 @@ public class RobotContainer
   //Subsystems
   private SwerveSubsystem M_Drive;
   //Controllers
-  private final XboxController M_Controller;
+  private XboxController M_Controller;
   //Buttons
   private JoystickButton Controller_A;
   private JoystickButton Controller_B;
@@ -28,19 +29,23 @@ public class RobotContainer
   //Constructor
   public RobotContainer() 
   {
-    //Controllers
-    M_Controller = new XboxController(0);
-    //Buttons
-    Controller_A = new JoystickButton(M_Controller, XboxController.Button.kA.value);
-    Controller_B = new JoystickButton(M_Controller, XboxController.Button.kB.value); 
-    //Gyroscopes
-    M_Gyro = new Pigeon2(4); 
-    //Set Defaults
-    M_Drive.setDefaultCommand(new TeleoperatedDriveCommand(M_Drive,M_Controller.getLeftX(),M_Controller.getLeftY(),M_Controller.getRightX(),M_Gyro));
-    //Subsystems
-    M_Drive = new SwerveSubsystem(M_Controller,M_Gyro);    
-    //Configure Bindings
-    configureButtonBindings();
+      //Controllers
+      try{M_Controller = new XboxController(0);}
+      catch(NullPointerException x) {System.out.println("Error: XboxController Not Found"); System.exit(0);}
+      //Buttons
+      try{Controller_A = new JoystickButton(M_Controller, XboxController.Button.kA.value);}
+      catch(NullPointerException x) {System.out.println("Error: XboxController A Button Not Found"); System.exit(0);}
+      try{Controller_B = new JoystickButton(M_Controller, XboxController.Button.kB.value);}
+      catch(NullPointerException x) {System.out.println("Error: XboxController B Button Not Found"); System.exit(0);}
+      //Gyroscopes
+      try{M_Gyro = new Pigeon2(4);}
+      catch(NullPointerException x) {System.out.println("Error: Gyroscope Not Found"); System.exit(0);}
+      //Set Defaults
+      M_Drive.setDefaultCommand(new TeleoperatedDriveCommand(M_Drive,M_Controller.getLeftX(),M_Controller.getLeftY(),M_Controller.getRightX(),M_Gyro));
+      //Subsystems
+      M_Drive = new SwerveSubsystem(M_Controller,M_Gyro);    
+      //Configure Bindings
+      configureButtonBindings();
   }
   //Config Bindings
   private void configureButtonBindings() 
