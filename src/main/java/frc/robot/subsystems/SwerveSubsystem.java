@@ -79,8 +79,8 @@ public class SwerveSubsystem extends SubsystemBase
     //Rotational Face
     R_Face = 1;
     //Group Lists
-    Rotational_Groups = new MotorControllerGroup[] {F_Rotational,L_Rotational,B_Rotational,B_Rotational};
-    Drive_Groups = new MotorControllerGroup[] {F_Drive,L_Drive,B_Drive,R_Rotational};
+    Rotational_Groups = new MotorControllerGroup[] {F_Rotational,L_Rotational,B_Rotational,R_Rotational};
+    Drive_Groups = new MotorControllerGroup[] {F_Drive,L_Drive,B_Drive,R_Drive};
 
   }
   //Decrement
@@ -99,7 +99,7 @@ public class SwerveSubsystem extends SubsystemBase
   //Convert K-Motors
   public void RotationalWheels(double Heading)
   {
-    K_Drive = Rotational_Groups[(int)Math.round(Heading/90)];
+    K_Drive = Drive_Groups[(int)Math.round(Heading/90)];
     K_Rotational = Rotational_Groups[(int)Math.round(Heading/90)];
   }
   //ACESSORS
@@ -111,8 +111,8 @@ public class SwerveSubsystem extends SubsystemBase
   //Return K[R] MotorControllerGroup
   public MotorControllerGroup getKRotate() {return K_Rotational;}
   //Return Rotaional Group
-  public MotorControllerGroup[] getRotationalGroup() {return Rotational_Groups;}
+  public MotorControllerGroup getRotationalGroup() {return Rotational;}
   //Return Drive Group
-  public MotorControllerGroup[] getDriveGroup() {return Drive_Groups;}
+  public MotorControllerGroup getDriveGroup() {return Drive;}
 
 }
