@@ -110,6 +110,9 @@ public class SwerveSubsystem extends SubsystemBase
   public MotorControllerGroup getKDrive() {return K_Drive;}
   //Return K[R] MotorControllerGroup
   public MotorControllerGroup getKRotate() {return K_Rotational;}
-
+  //Return Rotaional Group
+  public MotorControllerGroup[] getRotationalGroup() {return Rotational_Groups;}
+  //Return Drive Group
+  public MotorControllerGroup[] getDriveGroup() {return Drive_Groups;}
 
 }
