@@ -30,7 +30,7 @@ public class RobotContainer
   public RobotContainer() 
   {
       //Controllers
-      try{M_Controller = new XboxController(0);}
+      try{M_Controller = new XboxController(1);}
       catch(NullPointerException x) {System.out.println("Error: XboxController Not Found"); System.exit(0);}
       //Buttons
       try{Controller_A = new JoystickButton(M_Controller, XboxController.Button.kA.value);}
