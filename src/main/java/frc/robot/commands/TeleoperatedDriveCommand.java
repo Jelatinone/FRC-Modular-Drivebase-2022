@@ -57,6 +57,7 @@ public class TeleoperatedDriveCommand extends CommandBase
     K_Rotational_Motor.set(Math.atan((180/(JoystickR_X * 100))));
     for(WPI_TalonSRX N_Drive:N_Drive_Motors){N_Drive.set(Math.pow(JoystickL_Y,2));}
     for(WPI_TalonSRX N_Rotates:N_Rotational_Motors){N_Rotates.set(Math.atan(JoystickL_Y/JoystickL_X));}
+    Command_Complete = true;
   }
   //End Command
   @Override

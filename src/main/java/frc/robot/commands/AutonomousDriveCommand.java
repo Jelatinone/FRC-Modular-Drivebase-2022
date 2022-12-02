@@ -33,7 +33,16 @@ public class AutonomousDriveCommand extends CommandBase
     @Override
     public void execute() 
     {
-        //Autonomous Code
+        //Perform Circles
+        //K-Motors
+        (Parent_Subsystem.getKRotate()[0]).set(1);
+        (Parent_Subsystem.getKDrive()[0]).set(0.5);
+        //N-Motors
+        (Parent_Subsystem.getNDrives()[2]).setInverted(true);
+        (Parent_Subsystem.getNDrives()[2]).set(1);
+        (Parent_Subsystem.getNRotates()[2]).setInverted(true);
+        (Parent_Subsystem.getNRotates()[2]).set(0.5);
+        Command_Complete = true;
     }
     //End Command
     @Override
