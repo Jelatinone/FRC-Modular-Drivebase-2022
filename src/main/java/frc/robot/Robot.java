@@ -5,8 +5,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.util.sendable.Sendable;
 
 //Robot Class
 public class Robot extends TimedRobot 
@@ -21,8 +19,6 @@ public class Robot extends TimedRobot
   public void robotInit() 
   {
     M_robotContainer = new RobotContainer();
-    //Compass Indicator
-    Shuffleboard.getTab("Compass").add((Sendable) M_robotContainer.getGyro());
   }
 
   //Periodically Called
@@ -33,11 +29,11 @@ public class Robot extends TimedRobot
 
   //Intialize Disabled Mode
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {CommandScheduler.getInstance().cancelAll();}
 
   //Periodically Called Disabled
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {CommandScheduler.getInstance().cancelAll();}
 
   //Initialize Autonomous
   @Override

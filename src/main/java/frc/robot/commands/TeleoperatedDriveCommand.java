@@ -6,6 +6,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 //Libraries
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import java.util.function.DoubleSupplier;
 import java.util.Objects;
 
 import com.ctre.phoenix.sensors.Pigeon2;
@@ -25,17 +26,17 @@ public class TeleoperatedDriveCommand extends CommandBase
 
 
   //Constructors
-  public TeleoperatedDriveCommand(SwerveSubsystem Parent, double Left_X, double Left_Y, double Right_X,Pigeon2 gyro)
+  public TeleoperatedDriveCommand(SwerveSubsystem Parent, DoubleSupplier Left_X, DoubleSupplier Left_Y, DoubleSupplier Right_X,Pigeon2 gyro)
   {
     //Define Instances
-    //Joystick Deadzone Assignment
-    if(Left_X > 0.05){JoystickL_X = Left_X;}else{JoystickL_X = 0.0; Command_Complete = true; this.cancel();}
-    if(Left_Y > 0.05){JoystickL_Y = Left_Y;}else{JoystickL_Y = 0.0; Command_Complete = true;this.cancel();}
-    if(Right_X > 0.05){JoystickR_X = Right_X;}else{JoystickR_X = 0.0; Command_Complete = true; this.cancel();}
+    //Joystick Assignment
+    if(Left_X.getAsDouble() > 0.05){JoystickL_X = Left_X.getAsDouble();}else{JoystickL_X = 0.0;}
+    if(Left_Y.getAsDouble() > 0.05){JoystickL_Y = Left_Y.getAsDouble();}else{JoystickL_Y = 0.0;}
+    if(Right_X.getAsDouble() > 0.05){JoystickR_X = Right_X.getAsDouble();}else{JoystickR_X = 0.0;}
     //Parent Subsystem
     Parent_Subsystem = Parent;
     //Add Command To Parent Subsystem
-    addRequirements(Parent_Subsystem);
+    addRequirements(Parent_Subsystem);;
   }
 
   //Initialize Command

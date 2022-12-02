@@ -3,8 +3,10 @@ package frc.robot.subsystems;
 
 //Libraries
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import frc.robot.commands.TeleoperatedDriveCommand;
 import com.ctre.phoenix.sensors.Pigeon2;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.XboxController;
 import java.util.Objects;
 
 //SwerveSubSystem
@@ -32,6 +34,8 @@ public class SwerveSubsystem extends SubsystemBase
   private WPI_TalonSRX[] [] N_Drives;
   //Gyroscope
   final Pigeon2 M_Gyro;
+  //Controllers
+  final XboxController M_Controller;
   //Rotational Face
   private int R_Face;
   //Group Lists
@@ -40,7 +44,7 @@ public class SwerveSubsystem extends SubsystemBase
   //Compass Heading
   private static double Compass_Heading;
   //Constructors
-  public SwerveSubsystem(Pigeon2 Gyro)
+  public SwerveSubsystem(Pigeon2 Gyro, XboxController Controller)
   {
     //Define Instances
     //Drive Motors
@@ -56,8 +60,10 @@ public class SwerveSubsystem extends SubsystemBase
     //Large Groups
     Rotational = new WPI_TalonSRX[]{R_FL,R_FR,R_BL,R_BR};
     Drive = new WPI_TalonSRX[]{D_FL,D_FR,D_BL,D_BR};
-    //Additional
+    //Gyroscope
     M_Gyro = Gyro;
+    //Controller
+    M_Controller = Controller;
     //Rotational Face
     R_Face = 1;
     //Group Lists
@@ -65,7 +71,13 @@ public class SwerveSubsystem extends SubsystemBase
     Drive_Groups = new WPI_TalonSRX[] [] {{D_FL, D_FR},{D_FL, D_BL},{D_BL,D_BR},{D_BR, D_FR}};
     //Compass Heading
     Compass_Heading = M_Gyro.getCompassHeading();
-
+    //Set Default
+    this.setDefaultCommand(new TeleoperatedDriveCommand(
+      this,
+      () -> M_Controller.getLeftX(),
+      () -> M_Controller.getLeftY(),
+      () -> M_Controller.getRightX(),
+      M_Gyro));   
   }
   //Decrement
   public void DecrementRotationalFace(){if(R_Face > 0) {R_Face--;} else {R_Face = 4;}}
@@ -77,7 +89,7 @@ public class SwerveSubsystem extends SubsystemBase
   public void periodic() 
   {
     //Update Heading and Rotational Wheels
-    RotationalWheels(Compass_Heading = M_Gyro.getCompassHeading());
+    this.RotationalWheels(Compass_Heading = M_Gyro.getCompassHeading());
     
   }
 
@@ -88,13 +100,13 @@ public class SwerveSubsystem extends SubsystemBase
   //Convert K-Motors, R-Motors
   public void RotationalWheels(double Heading)
   {
-    int Index = (((int)Math.round(Heading/90) + R_Face) > Rotational_Groups.length)? (0): ((int)Math.round(Heading/90));
-    K_Drive = Drive_Groups[Index];
-    K_Rotational = Rotational_Groups[Index];
+    int index = (((int)Math.round(Heading/90) + R_Face) > Rotational_Groups.length)? (0): ((int)Math.round(Heading/90));
+    K_Drive = Drive_Groups[index];
+    K_Rotational = Rotational_Groups[((index + R_Face) > Rotational_Groups.length)? (0): (index)];
     for(int i = 0, j = 0; i < Drive_Groups.length; i++)
-      if(!(Objects.equals(i,Index))){N_Rotationals[j] = Rotational_Groups[i];N_Drives[j] = Drive_Groups[i];j++;}
+      if(!(Objects.equals(i,((index + R_Face) > Rotational_Groups.length)? (0):(index))))
+        {N_Rotationals[j] = Rotational_Groups[i];N_Drives[j] = Drive_Groups[i];j++;}
   }
-
   //ACESSORS
   //Return Current Rotational Face
   public int getRotationalFace() {return R_Face;}

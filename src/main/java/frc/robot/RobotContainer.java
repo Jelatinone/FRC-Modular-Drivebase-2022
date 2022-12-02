@@ -2,7 +2,6 @@
 package frc.robot;
 
 //Local
-import frc.robot.commands.TeleoperatedDriveCommand;
 import frc.robot.commands.AutonomousDriveCommand;
 import frc.robot.subsystems.SwerveSubsystem;
 //Libraries
@@ -12,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import com.ctre.phoenix.sensors.Pigeon2;
 import java.lang.NullPointerException;
+import java.util.Objects;
 //Container Class
 public class RobotContainer
 {
@@ -30,8 +30,12 @@ public class RobotContainer
   public RobotContainer() 
   {
       //Controllers
-      try{M_Controller = new XboxController(1);}
-      catch(NullPointerException x) {System.out.println("Error: XboxController Not Found"); System.exit(0);}
+      for(int i = 0; i <= 20 && Objects.equals(M_Controller,null); i++)
+      {
+        try{M_Controller = new XboxController(i);}
+        catch(NullPointerException x) {M_Controller = null; System.out.println("Error: XboxController Not Found"); System.exit(0);}
+      }
+      
       //Buttons
       try{Controller_A = new JoystickButton(M_Controller, XboxController.Button.kA.value);}
       catch(NullPointerException x) {System.out.println("Error: XboxController A Button Not Found"); System.exit(0);}
@@ -40,10 +44,8 @@ public class RobotContainer
       //Gyroscopes
       try{M_Gyro = new Pigeon2(4);}
       catch(NullPointerException x) {System.out.println("Error: Gyroscope Not Found"); System.exit(0);}
-      //Set Defaults
-      M_Drive.setDefaultCommand(new TeleoperatedDriveCommand(M_Drive,M_Controller.getLeftX(),M_Controller.getLeftY(),M_Controller.getRightX(),M_Gyro));
       //Subsystems
-      M_Drive = new SwerveSubsystem(M_Gyro);    
+      M_Drive = new SwerveSubsystem(M_Gyro,M_Controller);    
       //Configure Bindings
       configureButtonBindings();
   }
