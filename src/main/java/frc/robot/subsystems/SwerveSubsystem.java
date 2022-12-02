@@ -28,10 +28,10 @@ public class SwerveSubsystem extends SubsystemBase
   private WPI_TalonSRX[] Drive;
   //S-Rotational List
   private WPI_TalonSRX[] K_Rotational;
-  private WPI_TalonSRX[] [] N_Rotationals;
+  private WPI_TalonSRX[] N_Rotationals;
   //S-Drive List
   private WPI_TalonSRX[] K_Drive;
-  private WPI_TalonSRX[] [] N_Drives;
+  private WPI_TalonSRX[] N_Drives;
   //Gyroscope
   final Pigeon2 M_Gyro;
   //Controllers
@@ -102,10 +102,11 @@ public class SwerveSubsystem extends SubsystemBase
   {
     int index = (((int)Math.round(Heading/90) + R_Face) > Rotational_Groups.length)? (0): ((int)Math.round(Heading/90));
     K_Drive = Drive_Groups[index];
-    K_Rotational = Rotational_Groups[((index + R_Face) > Rotational_Groups.length)? (0): (index)];
+    K_Rotational = Rotational_Groups[index];
+    N_Drives = new WPI_TalonSRX[3];
+    N_Rotationals = new WPI_TalonSRX[3];
     for(int i = 0, j = 0; i < Drive_Groups.length; i++)
-      if(!(Objects.equals(i,((index + R_Face) > Rotational_Groups.length)? (0):(index))))
-        {N_Rotationals[j] = Rotational_Groups[i];N_Drives[j] = Drive_Groups[i];j++;}
+      if(!(Objects.equals(i,index))){N_Drives[j] = Drive[i];N_Rotationals[j] = Rotational[i];j++;}
   }
   //ACESSORS
   //Return Current Rotational Face
@@ -119,9 +120,9 @@ public class SwerveSubsystem extends SubsystemBase
   //Return Drive Group
   public WPI_TalonSRX[] getDriveGroup() {return Drive;}
   //Return N[D]
-  public WPI_TalonSRX[] [] getNRotates() {return N_Rotationals;}
+  public WPI_TalonSRX[] getNRotates() {return N_Rotationals;}
   //Return N[R]
-  public WPI_TalonSRX[] [] getNDrives() {return N_Drives;}
+  public WPI_TalonSRX[] getNDrives() {return N_Drives;}
   //Return Current Compass Heading
   public double getCurrentHeading() {return Compass_Heading;}
 }

@@ -50,24 +50,8 @@ public class TeleoperatedDriveCommand extends CommandBase
     //Motor Assignment
     WPI_TalonSRX K_Drive_Motor = Parent_Subsystem.getKDrive()[(JoystickR_X > 0)? (1): ((JoystickR_X < 0)? (0): (0))];
     WPI_TalonSRX K_Rotational_Motor = Parent_Subsystem.getKRotate()[(JoystickR_X > 0)? (1): ((JoystickR_X < 0)? (0): (0))];
-    WPI_TalonSRX[] N_Drive_Motors = new WPI_TalonSRX[3];
-    WPI_TalonSRX[] N_Rotational_Motors = new WPI_TalonSRX[3];
-    //Retrieval of N[D]
-    for(int i = 0, j = 0; i < Parent_Subsystem.getNDrives().length; i++)
-    {
-      for(WPI_TalonSRX N_Drive_Motor: Parent_Subsystem.getNDrives()[i])
-      {
-        if(!(Objects.equals(N_Drive_Motor,K_Drive_Motor))){N_Drive_Motors[j] = N_Drive_Motor;j++;}
-      }
-    }
-    //Retrieval of N[R]
-    for(int i = 0, j = 0; i < Parent_Subsystem.getNRotates().length; i++)
-    {
-      for(WPI_TalonSRX N_Rotate_Motor: Parent_Subsystem.getNRotates()[i])
-      {
-        if(!(Objects.equals(N_Rotate_Motor,K_Rotational_Motor))){N_Rotational_Motors[j] = N_Rotate_Motor;j++;}
-      }
-    }
+    WPI_TalonSRX[] N_Drive_Motors = Parent_Subsystem.getNDrives();
+    WPI_TalonSRX[] N_Rotational_Motors = Parent_Subsystem.getNRotates();
     //Execution
     K_Drive_Motor.set(Math.pow(JoystickL_Y,2));
     K_Rotational_Motor.set(Math.atan((180/(JoystickR_X * 100))));
