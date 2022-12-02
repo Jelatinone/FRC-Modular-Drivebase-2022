@@ -5,7 +5,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.Pigeon2;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.XboxController;
 import java.util.Objects;
 
 //SwerveSubSystem
@@ -33,8 +32,6 @@ public class SwerveSubsystem extends SubsystemBase
   private WPI_TalonSRX[] N_Drives;
   //Gyroscope
   final Pigeon2 M_Gyro;
-  //Controllers
-  final XboxController M_Controller;
   //Rotational Face
   private int R_Face;
   //Group Lists
@@ -43,7 +40,7 @@ public class SwerveSubsystem extends SubsystemBase
   //Compass Heading
   private static double Compass_Heading;
   //Constructors
-  public SwerveSubsystem(Pigeon2 Gyro, XboxController Controller)
+  public SwerveSubsystem(Pigeon2 Gyro)
   {
     //Define Instances
     //Drive Motors
@@ -62,7 +59,6 @@ public class SwerveSubsystem extends SubsystemBase
     //Gyroscope
     M_Gyro = Gyro;
     //Controller
-    M_Controller = Controller;
     //Rotational Face
     R_Face = 1;
     //Group Lists
