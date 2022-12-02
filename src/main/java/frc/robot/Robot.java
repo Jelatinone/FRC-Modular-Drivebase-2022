@@ -27,7 +27,7 @@ public class Robot extends TimedRobot
     CommandScheduler.getInstance().run();
   }
 
-  //Intialize Disabled Mode
+  //Initialize Disabled Mode
   @Override
   public void disabledInit() {CommandScheduler.getInstance().cancelAll();}
 
