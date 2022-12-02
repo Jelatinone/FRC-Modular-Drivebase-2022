@@ -16,16 +16,11 @@ public class Robot extends TimedRobot
 
   //Initialize Robot
   @Override
-  public void robotInit() 
-  {
-    M_robotContainer = new RobotContainer();
-  }
+  public void robotInit() {M_robotContainer = new RobotContainer();}
 
   //Periodically Called
   @Override
-  public void robotPeriodic() {
-    CommandScheduler.getInstance().run();
-  }
+  public void robotPeriodic() {CommandScheduler.getInstance().run();}
 
   //Intialize Disabled Mode
   @Override
@@ -40,10 +35,7 @@ public class Robot extends TimedRobot
   public void autonomousInit() 
   {
     M_AutoCommand = M_robotContainer.getAutonomousCommand();
-    if (M_AutoCommand != null) 
-    {
-      M_AutoCommand.schedule();
-    }
+    if (M_AutoCommand != null) {M_AutoCommand.schedule();}
   }
 
   //Periodically Called Autonomous
@@ -51,20 +43,14 @@ public class Robot extends TimedRobot
   public void autonomousPeriodic() 
   {
     M_AutoCommand = M_robotContainer.getAutonomousCommand();
-    if (M_AutoCommand != null) 
-    {
-      M_AutoCommand.schedule();
-    }
+    if (M_AutoCommand != null) {M_AutoCommand.schedule();}
   }
 
   //Initialize Teleoperated
   @Override
   public void teleopInit() 
   {
-    if (M_AutoCommand != null) 
-    {
-      M_AutoCommand.cancel();
-    }
+    if (M_AutoCommand != null) {M_AutoCommand.cancel();}
   }
 
   //Periodically Called Teleoperated
@@ -73,9 +59,7 @@ public class Robot extends TimedRobot
 
   //Initialize Test
   @Override
-  public void testInit() {
-    CommandScheduler.getInstance().cancelAll();
-  }
+  public void testInit() {CommandScheduler.getInstance().cancelAll();}
 
   //Periodically Called Test
   @Override

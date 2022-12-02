@@ -3,6 +3,7 @@ package frc.robot;
 
 //Local
 import frc.robot.commands.AutonomousDriveCommand;
+import frc.robot.commands.TeleoperatedDriveCommand;
 import frc.robot.subsystems.SwerveSubsystem;
 //Libraries
 import edu.wpi.first.wpilibj.XboxController;
@@ -45,7 +46,14 @@ public class RobotContainer
       try{M_Gyro = new Pigeon2(4);}
       catch(NullPointerException x) {System.out.println("Error: Gyroscope Not Found"); System.exit(0);}
       //Subsystems
-      M_Drive = new SwerveSubsystem(M_Gyro,M_Controller);    
+      M_Drive = new SwerveSubsystem(M_Gyro,M_Controller);  
+      //Set Default
+      M_Drive.setDefaultCommand(new TeleoperatedDriveCommand(
+      M_Drive,
+      () -> M_Controller.getLeftX(),
+      () -> M_Controller.getLeftY(),
+      () -> M_Controller.getRightX(),
+      M_Gyro));     
       //Configure Bindings
       configureButtonBindings();
   }

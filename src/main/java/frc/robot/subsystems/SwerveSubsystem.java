@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 
 //Libraries
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import frc.robot.commands.TeleoperatedDriveCommand;
 import com.ctre.phoenix.sensors.Pigeon2;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.XboxController;
@@ -71,13 +70,6 @@ public class SwerveSubsystem extends SubsystemBase
     Drive_Groups = new WPI_TalonSRX[] [] {{D_FL, D_FR},{D_FL, D_BL},{D_BL,D_BR},{D_BR, D_FR}};
     //Compass Heading
     Compass_Heading = M_Gyro.getCompassHeading();
-    //Set Default
-    this.setDefaultCommand(new TeleoperatedDriveCommand(
-      this,
-      () -> M_Controller.getLeftX(),
-      () -> M_Controller.getLeftY(),
-      () -> M_Controller.getRightX(),
-      M_Gyro));   
   }
   //Decrement
   public void DecrementRotationalFace(){if(R_Face > 0) {R_Face--;} else {R_Face = 4;}}
@@ -97,15 +89,15 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void simulationPeriodic() {}
 
-  //Convert K-Motors, R-Motors
+  //Convert K-Motors, N-Motors
   public void RotationalWheels(double Heading)
   {
     int index = (((int)Math.round(Heading/90) + R_Face) > Rotational_Groups.length)? (0): ((int)Math.round(Heading/90));
     K_Drive = Drive_Groups[index];
     K_Rotational = Rotational_Groups[index];
-    N_Drives = new WPI_TalonSRX[3];
-    N_Rotationals = new WPI_TalonSRX[3];
-    for(int i = 0, j = 0; i < Drive_Groups.length; i++)
+    N_Drives = new WPI_TalonSRX[(Drive_Groups.length-1)];
+    N_Rotationals = new WPI_TalonSRX[(Drive_Groups.length-1)];
+    for(int i = 0, j = 0; i < (Drive_Groups.length); i++)
       if(!(Objects.equals(i,index))){N_Drives[j] = Drive[i];N_Rotationals[j] = Rotational[i];j++;}
   }
   //ACESSORS
