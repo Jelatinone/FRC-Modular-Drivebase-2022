@@ -90,7 +90,7 @@ public class SwerveSubsystem extends SubsystemBase
     K_Rotational = Rotational_Groups[index];
     N_Drives = new WPI_TalonSRX[(Drive_Groups.length-1)];
     N_Rotationals = new WPI_TalonSRX[(Rotational_Groups.length-1)];
-    //TODO: Redesign to fit K_Drive.
+    //TODO: Redesign to fit K_Motors
     for(int i = 0, j = 0; i < (Drive_Groups.length); i++)
       if(!(Objects.equals(i,index))){N_Drives[j] = Drive[i];N_Rotationals[j] = Rotational[i];j++;}
   }
