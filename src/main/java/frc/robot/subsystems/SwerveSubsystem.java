@@ -57,7 +57,7 @@ public class SwerveSubsystem extends SubsystemBase
     //Large Groups
     Rotational = new WPI_TalonSRX[]{R_FL,R_FR,R_BL,R_BR};
     Drive = new WPI_TalonSRX[]{D_FL,D_FR,D_BL,D_BR};
-    //Set Neutral Mode
+    //Set Neutral Brake
     D_FL.setNeutralMode(NeutralMode.Brake);
     D_FR.setNeutralMode(NeutralMode.Brake);
     D_BL.setNeutralMode(NeutralMode.Brake);
@@ -68,33 +68,22 @@ public class SwerveSubsystem extends SubsystemBase
     R_BR.setNeutralMode(NeutralMode.Brake);
     //Gyroscope
     M_Gyro = Gyro;
-    //Controller
     //Rotational Face
-    R_Face = 1;
+    R_Face = 0;
     //Group Lists
     Rotational_Groups = new WPI_TalonSRX[] [] {{R_FL,R_FR},{R_FL,R_BL},{R_BL,R_BR},{R_FR,R_BR}};
     Drive_Groups = new WPI_TalonSRX[] [] {{D_FL, D_FR},{D_FL, D_BL},{D_BL,D_BR},{D_BR, D_FR}};
-    //Compass Heading
-    Compass_Heading = M_Gyro.getCompassHeading();
   }
   //Decrement
-  public void DecrementRotationalFace(){if(R_Face > 0) {R_Face--;} else {R_Face = 4;}}
+  public void DecrementRotationalFace(){if(Objects.equals(R_Face,0)) {R_Face = 3;} else {R_Face--;}}
   //Increment
-  public void IncrementRotationalFace(){if(R_Face < 4) {R_Face++;} else {R_Face = 0;}}
-
+  public void IncrementRotationalFace(){if(Objects.equals(R_Face,3)) {R_Face = 0;} else {R_Face++;}}
   //Periodic Subsystem
   @Override
-  public void periodic() 
-  {
-    //Update Heading and Rotational Wheels
-    this.RotationalWheels(Compass_Heading = M_Gyro.getCompassHeading());
-    
-  }
-
+  public void periodic() {RotationalWheels(Compass_Heading = M_Gyro.getCompassHeading());}
   //Simulation Periodic
   @Override
   public void simulationPeriodic() {}
-
   //Convert K-Motors, N-Motors
   public void RotationalWheels(double Heading)
   {
@@ -102,7 +91,7 @@ public class SwerveSubsystem extends SubsystemBase
     K_Drive = Drive_Groups[index];
     K_Rotational = Rotational_Groups[index];
     N_Drives = new WPI_TalonSRX[(Drive_Groups.length-1)];
-    N_Rotationals = new WPI_TalonSRX[(Drive_Groups.length-1)];
+    N_Rotationals = new WPI_TalonSRX[(Rotational_Groups.length-1)];
     for(int i = 0, j = 0; i < (Drive_Groups.length); i++)
       if(!(Objects.equals(i,index))){N_Drives[j] = Drive[i];N_Rotationals[j] = Rotational[i];j++;}
   }
@@ -122,5 +111,5 @@ public class SwerveSubsystem extends SubsystemBase
   //Return N[R]
   public WPI_TalonSRX[] getNDrives() {return N_Drives;}
   //Return Current Compass Heading
-  public double getCurrentHeading() {return Compass_Heading;}
+  public double getCurrentHeading() {return M_Gyro.getCompassHeading();}
 }
