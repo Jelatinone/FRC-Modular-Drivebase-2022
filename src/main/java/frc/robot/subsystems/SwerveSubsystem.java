@@ -38,8 +38,6 @@ public class SwerveSubsystem extends SubsystemBase
   //Group Lists
   private WPI_TalonSRX[] [] Rotational_Groups;
   private WPI_TalonSRX[] [] Drive_Groups;
-  //Compass Heading
-  private static double Compass_Heading;
   //Constructors
   public SwerveSubsystem(Pigeon2 Gyro)
   {
@@ -80,7 +78,7 @@ public class SwerveSubsystem extends SubsystemBase
   public void IncrementRotationalFace(){if(Objects.equals(R_Face,3)) {R_Face = 0;} else {R_Face++;}}
   //Periodic Subsystem
   @Override
-  public void periodic() {RotationalWheels(Compass_Heading = M_Gyro.getCompassHeading());}
+  public void periodic() {RotationalWheels(M_Gyro.getCompassHeading());}
   //Simulation Periodic
   @Override
   public void simulationPeriodic() {}
@@ -92,6 +90,7 @@ public class SwerveSubsystem extends SubsystemBase
     K_Rotational = Rotational_Groups[index];
     N_Drives = new WPI_TalonSRX[(Drive_Groups.length-1)];
     N_Rotationals = new WPI_TalonSRX[(Rotational_Groups.length-1)];
+    //TODO: Redesign to fit K_Drive.
     for(int i = 0, j = 0; i < (Drive_Groups.length); i++)
       if(!(Objects.equals(i,index))){N_Drives[j] = Drive[i];N_Rotationals[j] = Rotational[i];j++;}
   }
