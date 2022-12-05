@@ -1,6 +1,7 @@
 //Root Package
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 //Libraries
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.Pigeon2;
@@ -56,6 +57,15 @@ public class SwerveSubsystem extends SubsystemBase
     //Large Groups
     Rotational = new WPI_TalonSRX[]{R_FL,R_FR,R_BL,R_BR};
     Drive = new WPI_TalonSRX[]{D_FL,D_FR,D_BL,D_BR};
+    //Set Neutral Mode
+    D_FL.setNeutralMode(NeutralMode.Brake);
+    D_FR.setNeutralMode(NeutralMode.Brake);
+    D_BL.setNeutralMode(NeutralMode.Brake);
+    D_BR.setNeutralMode(NeutralMode.Brake);
+    R_FL.setNeutralMode(NeutralMode.Brake);
+    R_FR.setNeutralMode(NeutralMode.Brake);
+    R_BL.setNeutralMode(NeutralMode.Brake);
+    R_BR.setNeutralMode(NeutralMode.Brake);
     //Gyroscope
     M_Gyro = Gyro;
     //Controller
