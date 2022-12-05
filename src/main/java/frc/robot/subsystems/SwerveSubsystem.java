@@ -78,9 +78,15 @@ public class SwerveSubsystem extends SubsystemBase
     Compass_Heading = M_Gyro.getCompassHeading();
   }
   //Decrement
-  public void DecrementRotationalFace(){if(R_Face > 0) {R_Face--;} else {R_Face = 4;}}
+  public void DecrementRotationalFace()
+  {
+    (!(Objects.equals(R_Face,0))? (R_Face--): (R_Face = 4);
+  }
   //Increment
-  public void IncrementRotationalFace(){if(R_Face < 4) {R_Face++;} else {R_Face = 0;}}
+  public void IncrementRotationalFace()
+  {
+    (!(Objects.equals(R_Face_4)))? (R_Face++): (R_Face = 0);
+  }
 
   //Periodic Subsystem
   @Override
