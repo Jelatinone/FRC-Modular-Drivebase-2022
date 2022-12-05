@@ -13,5 +13,12 @@
       "/LiveWindow/Ungrouped/Talon SRX [6]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon SRX [7]": "Motor Controller"
     }
+  },
+  "NetworkTables": {
+    "LiveWindow": {
+      "SwerveSubsystem": {
+        "open": true
+      }
+    }
   }
 }
