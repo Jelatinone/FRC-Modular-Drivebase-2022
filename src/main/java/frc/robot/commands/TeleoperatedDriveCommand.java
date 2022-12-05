@@ -5,11 +5,10 @@ package frc.robot.commands;
 import frc.robot.subsystems.SwerveSubsystem;
 //Libraries
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import java.util.function.DoubleSupplier;
 import java.util.Objects;
-
-import com.ctre.phoenix.sensors.Pigeon2;
 
 public class TeleoperatedDriveCommand extends CommandBase
 {
