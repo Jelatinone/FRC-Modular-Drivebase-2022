@@ -49,8 +49,7 @@ public class TeleoperatedDriveCommand extends CommandBase
     Parent_Subsystem.getKDrive()[(JoystickR_X > 0)? (1): ((JoystickR_X < 0)? (0): (0))].set(Math.pow(JoystickL_Y,2));
     Parent_Subsystem.getKRotate()[(JoystickR_X > 0)? (1): ((JoystickR_X < 0)? (0): (0))].set(Math.atan((180/(JoystickR_X * 100))));
     for(WPI_TalonSRX N_Drive:Parent_Subsystem.getNDrives()){N_Drive.set((Math.pow(JoystickL_Y,2)+Math.pow(JoystickL_Y,2))/2);}
-    for(WPI_TalonSRX N_Rotates:Parent_Subsystem.getNRotates()){N_Rotates.set((Math.atan(JoystickL_Y/JoystickL_X)+Math.atan((180/(JoystickR_X * 100))))/2);}}
-    Command_Complete = true;
+    for(WPI_TalonSRX N_Rotates:Parent_Subsystem.getNRotates()){N_Rotates.set((Math.atan(JoystickL_Y/JoystickL_X)+Math.atan((180/(JoystickR_X * 100))))/2);}
   }
   //End Command
   @Override
