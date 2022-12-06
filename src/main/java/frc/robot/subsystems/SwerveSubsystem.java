@@ -55,7 +55,7 @@ public class SwerveSubsystem extends SubsystemBase
     //Large Groups
     Rotational = new WPI_TalonSRX[]{R_FL,R_FR,R_BL,R_BR};
     Drive = new WPI_TalonSRX[]{D_FL,D_FR,D_BL,D_BR};
-    //Set Neutral Mode
+    //Set Neutral Brake
     D_FL.setNeutralMode(NeutralMode.Brake);
     D_FR.setNeutralMode(NeutralMode.Brake);
     D_BL.setNeutralMode(NeutralMode.Brake);
@@ -66,9 +66,8 @@ public class SwerveSubsystem extends SubsystemBase
     R_BR.setNeutralMode(NeutralMode.Brake);
     //Gyroscope
     M_Gyro = Gyro;
-    //Controller
     //Rotational Face
-    R_Face = 1;
+    R_Face = 0;
     //Group Lists
     Rotational_Groups = new WPI_TalonSRX[] [] {{R_FL,R_FR},{R_FL,R_BL},{R_BL,R_BR},{R_FR,R_BR}};
     Drive_Groups = new WPI_TalonSRX[] [] {{D_FL, D_FR},{D_FL, D_BL},{D_BL,D_BR},{D_BR, D_FR}};
