@@ -34,7 +34,7 @@ public class TeleoperatedDriveCommand extends CommandBase
     if(Right_X.getAsDouble() > 0.05){JoystickR_X = Right_X.getAsDouble();}else{JoystickR_X = 0.0;}
     //Parent Subsystem
     Parent_Subsystem = Parent;
-    //Add Command To Parent Subsystem
+    //Add Child Command To Parent Subsystem
     addRequirements(Parent_Subsystem);;
   }
 
@@ -48,8 +48,16 @@ public class TeleoperatedDriveCommand extends CommandBase
   {
     Parent_Subsystem.getKDrive()[(JoystickR_X > 0)? (1): ((JoystickR_X < 0)? (0): (0))].set(Math.pow(JoystickL_Y,2));
     Parent_Subsystem.getKRotate()[(JoystickR_X > 0)? (1): ((JoystickR_X < 0)? (0): (0))].set(Math.atan((180/(JoystickR_X * 100))));
-    for(WPI_TalonSRX N_Drive:Parent_Subsystem.getNDrives()){N_Drive.set((Math.pow(JoystickL_Y,2)+Math.pow(JoystickL_Y,2))/2);}
-    for(WPI_TalonSRX N_Rotates:Parent_Subsystem.getNRotates()){N_Rotates.set((Math.atan(JoystickL_Y/JoystickL_X)+Math.atan((180/(JoystickR_X * 100))))/2);}
+    for(WPI_TalonSRX N_Drive: Parent_Subsystem.getNDrives())
+    {
+      if(!(Objects.equals(N_Drive,Parent_Subsystem.getKDrive()[(JoystickR_X > 0)? (1): ((JoystickR_X < 0)? (0): (0))])))
+        N_Drive.set((Math.pow(JoystickL_Y,2)+Math.pow(JoystickL_Y,2))/2);
+    }
+    for(WPI_TalonSRX N_Rotates: Parent_Subsystem.getNRotates())
+    {
+      if(!(Objects.equals(N_Rotates,Parent_Subsystem.getKRotate()[(JoystickR_X > 0)? (1): ((JoystickR_X < 0)? (0): (0))])))
+        N_Rotates.set((Math.atan(JoystickL_Y/JoystickL_X)+Math.atan((180/(JoystickR_X * 100))))/2);
+    }
     Command_Complete = true;
   }
   //End Command
