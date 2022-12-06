@@ -22,23 +22,23 @@ public class SwerveSubsystem extends SubsystemBase
   private WPI_TalonSRX R_FR;
   private WPI_TalonSRX R_BL;
   private WPI_TalonSRX R_BR;
-  //Large List
-  private WPI_TalonSRX[] Rotational;
-  private WPI_TalonSRX[] Drive;
   //S-Rotational List
   private WPI_TalonSRX[] K_Rotational;
   private WPI_TalonSRX[] N_Rotationals;
   //S-Drive List
   private WPI_TalonSRX[] K_Drive;
   private WPI_TalonSRX[] N_Drives;
+  //Large List
+  private final WPI_TalonSRX[] Rotational;
+  private final WPI_TalonSRX[] Drive;  
+  //Group Lists
+  private final WPI_TalonSRX[] [] Rotational_Groups;
+  private final WPI_TalonSRX[] [] Drive_Groups;  
   //Gyroscope
   final Pigeon2 M_Gyro;
   //Rotational Face
   private int R_Face;
-  //Group Lists
-  private WPI_TalonSRX[] [] Rotational_Groups;
-  private WPI_TalonSRX[] [] Drive_Groups;
-  //Constructors
+  //Primary Constructor
   public SwerveSubsystem(Pigeon2 Gyro)
   {
     //Drive Motors
@@ -51,6 +51,14 @@ public class SwerveSubsystem extends SubsystemBase
     R_FR = new WPI_TalonSRX(6);
     R_BL = new WPI_TalonSRX(3);
     R_BR = new WPI_TalonSRX(7);
+    //Set Motors Straight
+    R_FL.set(Math.atan(45.0));
+    R_BL.set(Math.atan(-45.0));
+    R_FR.set(Math.atan(45.0));
+    R_BR.set(Math.atan(-45.0));
+    //Invert
+    R_BL.setInverted(true);
+    R_BR.setInverted(true);
     //Large Groups
     Rotational = new WPI_TalonSRX[]{R_FL,R_FR,R_BL,R_BR};
     Drive = new WPI_TalonSRX[]{D_FL,D_FR,D_BL,D_BR};
