@@ -36,7 +36,6 @@ public class RobotContainer
         try{M_Controller = new XboxController(i);}
         catch(NullPointerException x) {M_Controller = null; System.out.println("Error: XboxController Not Found"); System.exit(0);}
       }
-      
       //Buttons
       try{Controller_A = new JoystickButton(M_Controller, XboxController.Button.kA.value);}
       catch(NullPointerException x) {System.out.println("Error: XboxController A Button Not Found"); System.exit(0);}

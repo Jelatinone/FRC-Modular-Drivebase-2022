@@ -41,7 +41,6 @@ public class SwerveSubsystem extends SubsystemBase
   //Constructors
   public SwerveSubsystem(Pigeon2 Gyro)
   {
-    //Define Instances
     //Drive Motors
     D_FL = new WPI_TalonSRX(0);
     D_FR = new WPI_TalonSRX(4);

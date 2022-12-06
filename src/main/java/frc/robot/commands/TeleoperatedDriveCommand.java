@@ -27,7 +27,6 @@ public class TeleoperatedDriveCommand extends CommandBase
   //Constructors
   public TeleoperatedDriveCommand(SwerveSubsystem Parent, DoubleSupplier Left_X, DoubleSupplier Left_Y, DoubleSupplier Right_X,Pigeon2 gyro)
   {
-    //Define Instances
     //Joystick Assignment
     if(Left_X.getAsDouble() > 0.05){JoystickL_X = Left_X.getAsDouble();}else{JoystickL_X = 0.0;}
     if(Left_Y.getAsDouble() > 0.05){JoystickL_Y = Left_Y.getAsDouble();}else{JoystickL_Y = 0.0;}

@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot 
 {
   //Instance Variables
-
   private Command M_AutoCommand;
   private RobotContainer M_robotContainer;
 
