@@ -38,8 +38,6 @@ public class SwerveSubsystem extends SubsystemBase
   //Group Lists
   private WPI_TalonSRX[] [] Rotational_Groups;
   private WPI_TalonSRX[] [] Drive_Groups;
-  //Compass Heading
-  private static double Compass_Heading;
   //Constructors
   public SwerveSubsystem(Pigeon2 Gyro)
   {
@@ -74,38 +72,33 @@ public class SwerveSubsystem extends SubsystemBase
     //Group Lists
     Rotational_Groups = new WPI_TalonSRX[] [] {{R_FL,R_FR},{R_FL,R_BL},{R_BL,R_BR},{R_FR,R_BR}};
     Drive_Groups = new WPI_TalonSRX[] [] {{D_FL, D_FR},{D_FL, D_BL},{D_BL,D_BR},{D_BR, D_FR}};
-    //Compass Heading
-    Compass_Heading = M_Gyro.getCompassHeading();
   }
   //Decrement
-  public void DecrementRotationalFace(){if(R_Face > 0) {R_Face--;} else {R_Face = 4;}}
+  public void DecrementRotationalFace(){if(Objects.equals(R_Face,0)) {R_Face = 3;} else {R_Face--;}}
   //Increment
-  public void IncrementRotationalFace(){if(R_Face < 4) {R_Face++;} else {R_Face = 0;}}
-
+  public void IncrementRotationalFace(){if(Objects.equals(R_Face,3)) {R_Face = 0;} else {R_Face++;}}
   //Periodic Subsystem
   @Override
   public void periodic() 
   {
-    //Update Heading and Rotational Wheels
-    this.RotationalWheels(Compass_Heading = M_Gyro.getCompassHeading());
-    
+    K_Drive = Drive_Groups[(((int)Math.round(M_Gyro.getCompassHeading()/90) + R_Face) > Rotational_Groups.length)? (0): ((int)Math.round(M_Gyro.getCompassHeading()/90))];
+    K_Rotational = Rotational_Groups[(((int)Math.round(M_Gyro.getCompassHeading()/90) + R_Face) > Rotational_Groups.length)? (0): ((int)Math.round(M_Gyro.getCompassHeading()/90))];
+    N_Drives = new WPI_TalonSRX[(Drive_Groups.length-1)];
+    N_Rotationals = new WPI_TalonSRX[(Rotational_Groups.length-1)];
+    for(int i = 0, j = 0; i < (Drive.length) && j < (N_Drives.length); i++)
+    {
+      if(!(Objects.equals(Drive[i],K_Drive[0]))){N_Drives[j] = Drive[i];j++;}
+      else if(!(Objects.equals(Drive[i],K_Drive[1]))){N_Drives[j] = Drive[i];j++;}
+    }
+    for(int i = 0, j = 0; i < (Rotational.length) && j < (N_Rotationals.length); i++)
+    {
+      if(!(Objects.equals(Rotational[i],K_Rotational[0]))){N_Rotationals[j] = Rotational[i];j++;}
+      else if(!(Objects.equals(Rotational[i],K_Rotational[1]))){N_Rotationals[j] = Rotational[i];j++;}
+    }
   }
-
   //Simulation Periodic
   @Override
   public void simulationPeriodic() {}
-
-  //Convert K-Motors, N-Motors
-  public void RotationalWheels(double Heading)
-  {
-    int index = (((int)Math.round(Heading/90) + R_Face) > Rotational_Groups.length)? (0): ((int)Math.round(Heading/90));
-    K_Drive = Drive_Groups[index];
-    K_Rotational = Rotational_Groups[index];
-    N_Drives = new WPI_TalonSRX[(Drive_Groups.length-1)];
-    N_Rotationals = new WPI_TalonSRX[(Drive_Groups.length-1)];
-    for(int i = 0, j = 0; i < (Drive_Groups.length); i++)
-      if(!(Objects.equals(i,index))){N_Drives[j] = Drive[i];N_Rotationals[j] = Rotational[i];j++;}
-  }
   //ACESSORS
   //Return Current Rotational Face
   public int getRotationalFace() {return R_Face;}
@@ -122,5 +115,5 @@ public class SwerveSubsystem extends SubsystemBase
   //Return N[R]
   public WPI_TalonSRX[] getNDrives() {return N_Drives;}
   //Return Current Compass Heading
-  public double getCurrentHeading() {return Compass_Heading;}
+  public double getCurrentHeading() {return M_Gyro.getCompassHeading();}
 }
