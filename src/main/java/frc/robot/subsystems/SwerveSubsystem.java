@@ -79,7 +79,7 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic() 
   {
-    K_Drive = Drive_Groups[(((int)Math.round(M_Gyro.getCompassHeading()/90) + R_Face) > Rotational_Groups.length)? (0): ((int)Math.round(M_Gyro.getCompassHeading()/90))];
+    K_Drive = Drive_Groups[(((int)Math.round(M_Gyro.getCompassHeading()/90) + R_Face) > Drive_Groups.length)? (0): ((int)Math.round(M_Gyro.getCompassHeading()/90))];
     K_Rotational = Rotational_Groups[(((int)Math.round(M_Gyro.getCompassHeading()/90) + R_Face) > Rotational_Groups.length)? (0): ((int)Math.round(M_Gyro.getCompassHeading()/90))];
     N_Drives = new WPI_TalonSRX[(Drive_Groups.length-1)];
     N_Rotationals = new WPI_TalonSRX[(Rotational_Groups.length-1)];
